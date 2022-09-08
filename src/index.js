@@ -1,13 +1,33 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ReactDOM from 'react-dom/client';
+import { ThemeProvider } from '@mui/material';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { BrowserRouter } from 'react-router-dom';
+
+//styles
+import './styles/index.css';
+import './styles/fonts.css'
+
+//components
+import App from './App';
+import theme from './mui/theme'; //this theme used change muiMaterials's theme
+
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_GRAPHCMS_URI,
+  cache: new InMemoryCache()
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
+    </ApolloProvider>
   </React.StrictMode>
 );
 
